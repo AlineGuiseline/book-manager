@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Gerenciador de livros</title>
+</head>
+
+<body>
+  <header>
+    <div class="logo-area">
+      <img src="./assets/logo-icon.svg" alt="Ilustração de um livro aberto">
+      <h1>Minha Biblioteca</h1>
+    </div>
+
+    <button class="add-btn"><img src="./assets/plus.svg" alt="Ícone de mais"> <span>Adicionar
+        livro</span></button>
+  </header>
+
+  <section>
+    <div class="statics">
+      <div class="statics-item">
+        <h2>0</h2>
+        <p>Total</p>
+      </div>
+      <div class="statics-item">
+        <h2>0</h2>
+        <p>Quero ler</p>
+      </div>
+      <div class="statics-item">
+        <h2>0</h2>
+        <p>Lendo</p>
+      </div>
+      <div class="statics-item">
+        <h2>0</h2>
+        <p>Lido</p>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="control-area">
+      <input type="text" class="search-input" placeholder="Buscar por título ou autor...">
+      <select class="filter-select">
+        <option value="all">Todos os status</option>
+        <option value="wanna">Quero ler</option>
+        <option value="reading">Lendo</option>
+        <option value="read">Lido</option>
+      </select>
+    </div>
+    <section class="book-list">
+      <!-- <p>Nenhum livro adicionado ainda. Comece adicionando seu primeiro livro!</p> -->
+
+      <div class="book-area">
+        <img src="./assets/cover.jpg" alt="Capa do livro Roube como um artista">
+        <div class="book-info">
+          <div class="basic-info">
+            <h2 class="book-title">Roube como um artista</h2>
+            <p class="book-author">Austin Kleon</p>
+          </div>
+          <span class="book-status read">Lido</span>
+
+          <div class="classification">
+            <button class="classificate-btn"><img src="./assets/star.svg"></button>
+            <button class="classificate-btn"><img src="./assets/star.svg"></button>
+            <button class="classificate-btn"><img src="./assets/star.svg"></button>
+            <button class="classificate-btn"><img src="./assets/star.svg"></button>
+            <button class="classificate-btn"><img src="./assets/star.svg"></button>
+          </div>
+
+          <p class="comment">
+            Maravilhoso, abre a mente! Difícil parar de ler.
+          </p>
+        </div>
+        <div class="book-actions">
+          <button class="edit-btn">
+            <img src="./assets/pencil.svg" alt="Ícone de lápis">
+            Editar
+          </button>
+          <button class="delete-btn">
+            <img src="./assets/trash.png" alt="Ícone de lixeira">
+            Excluir
+          </button>
+        </div>
+      </div>
+    </section>
+    <div class="overlay none">
+      <div class="add-modal">
+        <button class="close-btn"><img src="./assets/close.svg" alt="Ícone de fechar"></button>
+
+        <h2>Adicionar Livro</h2>
+
+        <div class="form-area">
+          <p class="label-modal">Título *</p>
+          <input type="text" class="input-field" placeholder="Digite o título do livro">
+
+          <p class="label-modal">Autor *</p>
+          <input type="text" class="input-field" placeholder="Digite o nome do autor">
+
+          <p class="label-modal">URL da Imagem</p>
+          <input type="text" class="input-field" placeholder="URL da capa do livro (opcional)">
+
+          <select class="filter-select">
+            <option value="all">Todos os status</option>
+            <option value="wanna">Quero ler</option>
+            <option value="reading">Lendo</option>
+            <option value="read">Lido</option>
+          </select>
+
+          <p class="label-modal">Avaliação</p>
+          <div class="classification">
+            <button class="classificate-btn">
+              <img src="./assets/star_empty.svg" alt="Ícone de uma estrela vazia">
+            </button>
+            <button class="classificate-btn">
+              <img src="./assets/star_empty.svg" alt="Ícone de uma estrela vazia">
+            </button>
+            <button class="classificate-btn">
+              <img src="./assets/star_empty.svg" alt="Ícone de uma estrela vazia">
+            </button>
+            <button class="classificate-btn">
+              <img src="./assets/star_empty.svg" alt="Ícone de uma estrela vazia">
+            </button>
+            <button class="classificate-btn">
+              <img src="./assets/star_empty.svg" alt="Ícone de uma estrela vazia">
+            </button>
+            <button class="clear-rating-btn none">Limpar</button>
+          </div>
+
+
+          <p class="label-modal">Comentário</p>
+          <textarea class="comment-area" placeholder="Suas anotações sobre o livro (opcional)"></textarea>
+
+          <div class="btn-area">
+            <button class="cancel-btn" onclick="toggleModal()">Cancelar</button>
+            <button class="add-btn">Adicionar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+<script src="./script.js"></script>
+
+</html>
