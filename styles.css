@@ -418,6 +418,80 @@ main {
   color: var(--gray-500);
 }
 
+/* Modais de aviso/confirmação */
+.custom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.custom-modal {
+  background: var(--white);
+  padding: 1.75rem;
+  border-radius: .75rem;
+  width: 26rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: fadeIn .25s ease;
+}
+
+.modal-title {
+  font-size: var(--heading-md-size);
+  color: var(--gray-500);
+  font-weight: 600;
+  text-align: center;
+}
+
+.modal-message {
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-line);
+  color: var(--gray-400);
+}
+
+.modal-ok-btn,
+.modal-cancel-btn,
+.modal-confirm-btn {
+  padding: .65rem 1.25rem;
+  border-radius: .5rem;
+  font-size: var(--action-size);
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  transition: .2s;
+}
+
+.modal-ok-btn:hover,
+.modal-cancel-btn:hover {
+  background: var(--gray-100);
+}
+
+.modal-confirm-btn.danger {
+  background: var(--red-bright);
+  border: none;
+  color: white;
+}
+
+.modal-confirm-btn.danger:hover {
+  background: #bb1535;
+}
+
+.modal-btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: .75rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .none {
   display: none;
 }

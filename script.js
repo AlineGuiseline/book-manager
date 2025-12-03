@@ -2,7 +2,6 @@
 const modal = document.querySelector(".overlay");
 const openModalBtn = document.querySelector(".add-btn");
 const closeModalBtn = document.querySelector(".close-btn");
-
 const bookList = document.querySelector(".book-list");
 const modalInputs = document.querySelectorAll(".input-field");
 const titleInput = modalInputs[0];
@@ -12,9 +11,20 @@ const statusSelect = document.querySelector(".form-area select");
 const commentArea = document.querySelector(".comment-area");
 const addActionBtn = document.querySelector(".btn-area .add-btn");
 const clearRatingBtn = document.querySelector(".clear-rating-btn");
-
 const modalStarArea = document.querySelector(".add-modal .classification");
 const starButtons = modalStarArea.querySelectorAll(".classificate-btn");
+const searchInput = document.querySelector(".search-input");
+const filterSelect = document.querySelector(".filter-select");
+
+// Modais de aviso/confirmação
+const alertOverlay = document.querySelector(".custom-alert");
+const alertMessage = alertOverlay.querySelector(".modal-message");
+const alertOkBtn = alertOverlay.querySelector(".modal-ok-btn");
+
+const confirmOverlay = document.querySelector(".custom-confirm");
+const confirmMessage = confirmOverlay.querySelector(".modal-message");
+const confirmCancelBtn = confirmOverlay.querySelector(".modal-cancel-btn");
+const confirmYesBtn = confirmOverlay.querySelector(".modal-confirm-btn");
 
 // Estado global
 let books = [];
@@ -68,6 +78,9 @@ function loadBooks() {
   books = data ? JSON.parse(data) : [];
   renderBooks();
 }
+// Filtros
+searchInput.addEventListener("input", renderBooks);
+filterSelect.addEventListener("change", renderBooks);
 
 // Avaliação
 starButtons.forEach((btn, index) => {
@@ -100,7 +113,9 @@ clearRatingBtn.addEventListener("click", () => {
 // Adicionar/Editar Livro
 addActionBtn.addEventListener("click", () => {
   if (!titleInput.value.trim() || !authorInput.value.trim()) {
-    alert("Título e Autor são obrigatórios!");
+    showAlert(
+      "Ei, viajante! 💛\nAntes de continuar, coloca o título e o autor para eu salvar direitinho para você!"
+    );
     return;
   }
 
@@ -132,12 +147,27 @@ addActionBtn.addEventListener("click", () => {
 function renderBooks() {
   bookList.innerHTML = "";
 
-  if (books.length === 0) {
-    bookList.innerHTML = `<p>Nenhum livro adicionado ainda. Comece adicionando seu primeiro livro!</p>`;
+  // FILTROS
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  const selectedStatus = filterSelect.value;
+
+  const filteredBooks = books.filter((book) => {
+    const matchesSearch =
+      book.title.toLowerCase().includes(searchTerm) ||
+      book.author.toLowerCase().includes(searchTerm);
+
+    const matchesStatus =
+      selectedStatus === "all" ? true : book.status === selectedStatus;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  if (filteredBooks.length === 0) {
+    bookList.innerHTML = `<p>Nenhum livro encontrado.</p>`;
     return;
   }
 
-  books.forEach((book) => {
+  filteredBooks.forEach((book) => {
     const div = document.createElement("div");
     div.classList.add("book-area");
 
@@ -174,12 +204,12 @@ function renderBooks() {
       </div>
     `;
 
-    // Editar
+    // editar
     div
       .querySelector(".edit-btn")
       .addEventListener("click", () => fillModalForEdit(book));
 
-    // Deletar
+    // deletar
     div
       .querySelector(".delete-btn")
       .addEventListener("click", () => deleteBook(book.id));
@@ -226,11 +256,14 @@ function fillModalForEdit(book) {
 
 // Deletar
 function deleteBook(id) {
-  if (confirm("Tem certeza que deseja excluir este livro?")) {
-    books = books.filter((b) => b.id !== id);
-    saveBooks();
-    renderBooks();
-  }
+  showConfirm(
+    "Tem certeza que quer excluir este livro? \nEle vai sumir da sua biblioteca para sempre!",
+    () => {
+      books = books.filter((b) => b.id !== id);
+      saveBooks();
+      renderBooks();
+    }
+  );
 }
 
 // Atualizar Estatísticas
@@ -241,6 +274,35 @@ function updateCounters() {
   total[1].textContent = books.filter((b) => b.status === "wanna").length;
   total[2].textContent = books.filter((b) => b.status === "reading").length;
   total[3].textContent = books.filter((b) => b.status === "read").length;
+}
+
+// Alerta dos campos obrigatórios
+function showAlert(message) {
+  alertMessage.textContent = message;
+  alertOverlay.classList.remove("none");
+}
+
+alertOkBtn.addEventListener("click", () => {
+  alertOverlay.classList.add("none");
+});
+
+// Confirmação (excluir)
+function showConfirm(message, onConfirm) {
+  confirmMessage.textContent = message;
+  confirmOverlay.classList.remove("none");
+
+  const handler = () => {
+    confirmOverlay.classList.add("none");
+    confirmYesBtn.removeEventListener("click", handler);
+    onConfirm();
+  };
+
+  confirmYesBtn.addEventListener("click", handler);
+
+  confirmCancelBtn.addEventListener("click", () => {
+    confirmOverlay.classList.add("none");
+    confirmYesBtn.removeEventListener("click", handler);
+  });
 }
 
 // Iniciar
